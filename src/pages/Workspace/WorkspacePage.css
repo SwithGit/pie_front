@@ -1,0 +1,25 @@
+.workspace-page { max-width: 1120px; margin: 0 auto; padding: 64px 24px 96px; color: #172036; }
+.workspace-heading { margin-bottom: 28px; }
+.workspace-heading span { color: #4263eb; font-size: 14px; font-weight: 700; }
+.workspace-heading h1 { margin: 8px 0; font-size: clamp(32px, 4vw, 48px); }
+.workspace-heading p, .workspace-card p { color: #5d6678; line-height: 1.6; }
+.workspace-notice { padding: 14px 18px; margin-bottom: 20px; background: #edf3ff; border: 1px solid #bdd0ff; border-radius: 12px; }
+.workspace-card { padding: 28px; margin-bottom: 20px; background: #fff; border: 1px solid #e3e7ef; border-radius: 18px; box-shadow: 0 8px 30px rgba(27, 42, 82, .04); }
+.workspace-card h2 { margin: 0 0 10px; font-size: 22px; }
+.workspace-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.workspace-grid { display: grid; gap: 12px; }
+.workspace-item { padding: 16px; border: 1px solid #e5e9f2; border-radius: 12px; }
+.workspace-item strong { display: block; font-size: 17px; }
+.workspace-item small { display: block; margin: 5px 0 10px; color: #657087; }
+.workspace-code { margin-top: 10px; color: #657087; overflow-wrap: anywhere; font-size: 13px; }
+.workspace-code code { color: #26365a; }
+.workspace-member { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 12px 0; border-top: 1px solid #edf0f6; }
+.workspace-card form { display: grid; gap: 14px; margin-top: 18px; }
+.workspace-company-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.workspace-company-form button { grid-column: 1 / -1; justify-self: start; }
+.workspace-card label { display: grid; gap: 7px; font-weight: 600; }
+.workspace-card input { width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid #cfd6e5; border-radius: 9px; font: inherit; }
+.workspace-card button { padding: 10px 16px; margin: 2px 6px 2px 0; border: 0; border-radius: 9px; background: #4263eb; color: #fff; cursor: pointer; font: inherit; }
+.workspace-card button:disabled { background: #aab5d4; cursor: default; }
+.workspace-card .workspace-subtle, .workspace-code button { background: #edf2ff; color: #3151c9; }
+@media (max-width: 720px) { .workspace-columns, .workspace-company-form { grid-template-columns: 1fr; } .workspace-page { padding: 32px 16px 64px; } .workspace-card { padding: 20px; } }
