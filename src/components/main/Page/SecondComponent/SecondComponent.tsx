@@ -19,7 +19,6 @@ import HeartMsg2 from "../../../../assets/img/HeartMsg2.png";
 import expand from "../../../../assets/vector/expand_right.png";
 import { useDeviceSize } from "../../../../hooks/useDeviceSize";
 import { useTranslation } from "react-i18next";
-import i18n from "../../../../i18n/i18n";
 
 const SecondComponent: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -47,13 +46,14 @@ const SecondComponent: React.FC = () => {
       { threshold: 0.5 } // 50% 정도가 화면에 보일 때 트리거
     );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    const container = containerRef.current;
+    if (container) {
+      observer.observe(container);
     }
 
     return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
+      if (container) {
+        observer.unobserve(container);
       }
     };
   }, []);

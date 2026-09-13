@@ -12,7 +12,7 @@ import { useDeviceSize } from "../../../hooks/useDeviceSize";
 const Page: React.FC = () => {
   const [selectedSection, setSelectedSection] = useState<number>(1);
   const [scrolling, setScrolling] = useState<boolean>(false);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { isMobile } = useDeviceSize();
 
   const firstSectionRef = useRef<HTMLDivElement>(null);

@@ -1,7 +1,6 @@
 import React, { useState, memo, useEffect } from "react";
 import * as S from "./EmailSelect.style";
 import { useTranslation } from "react-i18next";
-import i18n from "../../../../i18n/i18n";
 
 const EmailSelect = ({
   onChange,

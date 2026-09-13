@@ -56,6 +56,7 @@ const Allgallery: React.FC = () => {
   return (
     <S.GalleryPage>
       <h1>모든 전시회</h1>
+      {error && <p role="alert">{error}</p>}
       {isLoading ? (
         <p>로딩 중...</p>
       ) : (

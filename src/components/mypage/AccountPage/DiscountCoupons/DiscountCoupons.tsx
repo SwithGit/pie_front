@@ -11,11 +11,8 @@ import { getUserCoupons } from "../../../../api/api";
 const DiscountCoupons: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coupons, setCoupons] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   const refreshCoupons = () => {
-    setLoading(true);
     getUserCoupons()
       .then((response) => {
         const couponsWithOrder = response.data.response.map(
@@ -25,12 +22,9 @@ const DiscountCoupons: React.FC = () => {
           })
         );
         setCoupons(couponsWithOrder); // 순서가 추가된 쿠폰 데이터 설정
-        setLoading(false);
       })
       .catch((err) => {
         console.error("쿠폰 데이터를 불러오는 중 오류 발생:", err);
-        setError("쿠폰 데이터를 불러오는 중 오류가 발생했습니다.");
-        setLoading(false);
       });
   };
 

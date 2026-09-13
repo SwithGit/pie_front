@@ -41,9 +41,8 @@ const Divider = () => (
 );
 
 const Footer = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState(false);
-  const isEnglish = i18n.language === "en"; // 영어 감지
 
   // 모바일 환경 감지
   useEffect(() => {

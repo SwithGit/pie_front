@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
 
 const Content = ({ code }: { code: string }) => {
-  const [isUnityMounted, setIsUnityMounted] = useState(true);
+  const [isUnityMounted] = useState(true);
 
   const { unityProvider, sendMessage, loadingProgression, isLoaded, unload } =
     useUnityContext({

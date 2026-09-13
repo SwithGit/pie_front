@@ -7,8 +7,6 @@ import * as S from "./Calendar.style";
 import moment from "moment";
 import axios from "axios";
 
-type ValuePiece = Date | null;
-
 const CustomCalendar: React.FC<{
   onDateSelect: (startDate: string, endDate: string) => void;
   onClose: () => void;
@@ -28,16 +26,6 @@ const CustomCalendar: React.FC<{
   };
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMonth(parseInt(e.target.value, 10));
-  };
-
-  // 달력 외부 클릭 시 닫기
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      calendarRef.current &&
-      !calendarRef.current.contains(event.target as Node)
-    ) {
-      onClose();
-    }
   };
 
   useEffect(() => {
@@ -63,11 +51,20 @@ const CustomCalendar: React.FC<{
   }, []);
 
   useEffect(() => {
+    // 달력 외부 클릭 시 닫기
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        calendarRef.current &&
+        !calendarRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [onClose]);
 
   // 날짜 클릭 시 처리
   const handleClickDay = (value: Date) => {

@@ -1,5 +1,4 @@
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   useLocation,
@@ -24,8 +23,6 @@ import Points from "../../pages/Mypage/points";
 import Pricing from "../../pages/Pricing/Pricing";
 import Download from "../../pages/Download/Download";
 import Allgallery from "../../pages/allgallery/allgallery";
-import Chinchilla from "../../components/Chinchilla/Chinchilla";
-import ViaSns from "../../components/Viasns/ViaSns";
 import WorkspacePage from "../../pages/Workspace/WorkspacePage";
 // GalleryWrapper: URL 파라미터를 받아서 Gallery 컴포넌트에 전달하는 래퍼 컴포넌트
 const GalleryWrapper: React.FC = () => {
@@ -79,8 +76,6 @@ const AppLayout: React.FC = () => {
           <Route path="/mypage/points" element={<Points />} />
           <Route path="/mypage/coupons" element={<DiscountCoupons />} />
           <Route path="/mypage/withdraw" element={<Withdraw />} />
-          <Route path="/Chinchilla" element={<Chinchilla code={undefined} />} />
-          <Route path="/viasns" element={<ViaSns code={undefined} />} />
         </Routes>
       </main>
       {!hideFooter && <Footer />}

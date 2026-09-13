@@ -38,7 +38,6 @@ const MyPage: React.FC = () => {
 
   // 버튼 활성화 상태
   const [isPhoneButtonActive, setIsPhoneButtonActive] = useState(false);
-  const [isAddressButtonActive, setIsAddressButtonActive] = useState(false);
   const [isSubmitButtonActive, setIsSubmitButtonActive] = useState(false);
 
   // 인증 코드 관련 상태
@@ -151,7 +150,6 @@ const MyPage: React.FC = () => {
   // 주소 검색 완료 처리
   const handlePostcodeComplete = (data: any) => {
     setAddress(data.address);
-    setIsAddressButtonActive(true);
   };
 
   // 주소 검색 팝업 열기
