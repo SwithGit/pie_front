@@ -26,6 +26,8 @@ const WorkspacePage: React.FC = () => {
   const [company, setCompany] = useState({ companyName: "", businessNumber: "", openingDate: "", representativeName: "" });
   const [joinTarget, setJoinTarget] = useState("");
   const [notice, setNotice] = useState("");
+  const [companyNotice, setCompanyNotice] = useState("");
+  const [companySubmitting, setCompanySubmitting] = useState(false);
   const [busy, setBusy] = useState(false);
   const isLoggedIn = !!localStorage.getItem("token");
 
@@ -40,10 +42,10 @@ const WorkspacePage: React.FC = () => {
     if (isLoggedIn) refresh().catch(error => setNotice(messageOf(error)));
   }, [isLoggedIn, refresh]);
 
-  const run = async (action: () => Promise<any>, success: string) => {
-    setBusy(true); setNotice("");
-    try { await action(); await refresh(); setNotice(success); return true; }
-    catch (error) { setNotice(messageOf(error)); return false; }
+  const run = async (action: () => Promise<any>, success: string, onStatus?: (message: string) => void, pending = "") => {
+    setBusy(true); setNotice(""); onStatus?.(pending);
+    try { await action(); await refresh(); setNotice(success); onStatus?.(success); return true; }
+    catch (error) { const message = messageOf(error); setNotice(message); onStatus?.(message); return false; }
     finally { setBusy(false); }
   };
 
@@ -79,7 +81,10 @@ const WorkspacePage: React.FC = () => {
             onClick={() => run(() => activateWorkspace(workspace.id), "사용할 작업 공간을 변경했습니다.")}>
             {workspace.activeWorkspaceId === workspace.id ? "사용 중" : "이 공간에서 작업"}</button>}
           {workspace.kind !== "personal" && <div className="workspace-code">팀 코드: <code>{workspace.id}</code>
-            <button type="button" onClick={() => navigator.clipboard.writeText(workspace.id)}>복사</button></div>}
+            <button type="button" onClick={async () => {
+              try { await navigator.clipboard.writeText(workspace.id); window.alert("복사되었습니다"); }
+              catch { window.alert("복사에 실패했습니다."); }
+            }}>복사</button></div>}
           {workspace.memberStatus === "active" && ["owner", "admin"].includes(workspace.role) && workspace.status === "active" &&
             <button className="workspace-subtle" onClick={() => showMembers(workspace.id)}>팀원·참여 신청 보기</button>}
           {(members[workspace.id] || []).map(member => <div className="workspace-member" key={member.userId}>
@@ -108,17 +113,21 @@ const WorkspacePage: React.FC = () => {
     </div>
 
     <section className="workspace-card"><h2>회사 등록</h2>
-      <p>첫 관리자만 등록합니다. 국세청 정보 확인 후 운영자 검토가 끝나면 회사 작업 공간을 사용할 수 있어요.</p>
+      <p>첫 관리자만 등록합니다. 국세청에서 사업자번호·개업일자·대표자명을 확인하고, 운영자가 회사명과 신청 자격을 검토합니다.</p>
       <form className="workspace-company-form" onSubmit={event => { event.preventDefault();
-        run(() => registerCompanyWorkspace(company), "회사 등록을 신청했습니다. 관리자 승인 후 사용할 수 있습니다."); }}>
-        <label>회사명<input value={company.companyName} required maxLength={120} onChange={event => setCompany({ ...company, companyName: event.target.value })} /></label>
+        setCompanySubmitting(true);
+        run(() => registerCompanyWorkspace(company), "회사 등록을 신청했습니다. 관리자 승인 후 사용할 수 있습니다.",
+          setCompanyNotice, "국세청 정보를 확인 중입니다. 잠시만 기다려 주세요.")
+          .finally(() => setCompanySubmitting(false)); }}>
+        <label>회사명 (작업 공간 표시용)<input value={company.companyName} required maxLength={120} onChange={event => setCompany({ ...company, companyName: event.target.value })} /></label>
         <label>사업자등록번호<input value={company.businessNumber} required inputMode="numeric" placeholder="하이픈 없이 10자리"
           onChange={event => setCompany({ ...company, businessNumber: event.target.value })} /></label>
         <label>개업일자<input value={company.openingDate} required placeholder="YYYYMMDD" inputMode="numeric"
           onChange={event => setCompany({ ...company, openingDate: event.target.value })} /></label>
         <label>대표자명<input value={company.representativeName} required maxLength={100}
           onChange={event => setCompany({ ...company, representativeName: event.target.value })} /></label>
-        <button disabled={busy}>국세청 확인 후 등록 신청</button>
+        <button disabled={busy}>{companySubmitting ? "국세청 확인 중..." : "국세청 확인 후 등록 신청"}</button>
+        {companyNotice && <div className="workspace-notice workspace-company-feedback" role="status">{companyNotice}</div>}
       </form>
     </section>
 
@@ -128,7 +137,7 @@ const WorkspacePage: React.FC = () => {
           {review.applicantEmail ? ` · ${review.applicantEmail}` : ""}{review.applicantPhone ? ` · ${review.applicantPhone}` : ""}</span>
         <button disabled={busy} onClick={() => run(() => approveCompanyWorkspace(review.id), "회사 등록을 승인했습니다.")}>확인 후 승인</button>
       </div>)}
-      <p>국세청 조회는 사업자 정보의 일치 여부만 확인합니다. 신청자의 관리 권한은 별도로 확인한 뒤 승인하세요.</p>
+      <p>국세청은 사업자번호·개업일자·대표자명과 영업 상태를 확인합니다. 회사명과 신청자의 관리 권한은 별도로 확인한 뒤 승인하세요.</p>
     </section>}
   </div>;
 };

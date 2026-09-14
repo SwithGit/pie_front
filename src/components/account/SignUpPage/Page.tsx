@@ -90,10 +90,10 @@ const Page: React.FC = () => {
       password !== "" &&
       passwordConfirm !== "" &&
       password === passwordConfirm &&
-      phone !== "" &&
-      isVerificationSuccess &&
-      verificationToken !== "" &&
-      verifiedPhone === phone &&
+      (phone.trim() === "" ||
+        (isVerificationSuccess &&
+          verificationToken !== "" &&
+          verifiedPhone === phone)) &&
       address !== "" &&
       detailedAddress !== "" &&
       isNicknameSuccess &&
@@ -146,8 +146,8 @@ const Page: React.FC = () => {
       id,
       password,
       email: `${email}@${emailDomain}`,
-      phone,
-      verificationToken,
+      phone: phone.trim() === "" ? null : phone,
+      verificationToken: phone.trim() === "" ? undefined : verificationToken,
       address,
       address2: detailedAddress,
     };
@@ -455,7 +455,7 @@ const Page: React.FC = () => {
             <S.TitleContainer>
               <S.isOverlap>
                 <S.Title>
-                  {t("phoneVerification")} <span>*</span>
+                  {t("phoneVerification")} ({t("optional")})
                 </S.Title>
                 {isCodeSent && (
                   <>

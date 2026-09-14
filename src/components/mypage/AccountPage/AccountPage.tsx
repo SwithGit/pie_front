@@ -58,8 +58,8 @@ const MyPage: React.FC = () => {
         setName(data.name);
         setId(data.id);
         setNickname(data.nickname);
-        setPhone(data.phone);
-        setInitialPhone(data.phone);
+        setPhone(data.phone ?? "");
+        setInitialPhone(data.phone ?? "");
         setAddress(data.address);
         setInitialAddress(data.address);
         setAddress2(data.address2);
