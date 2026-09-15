@@ -148,7 +148,12 @@ const Navbar: React.FC = () => {
           </>
         ) : (
           <S.NavMenu>
-            <S.NavMenuItem onClick={() => handleMenuClick("galleries", "/galleries")}>
+            <S.NavMenuItem
+              onClick={() => handleMenuClick("galleries", "/galleries")}
+              style={{
+                fontWeight: activeMenu === "galleries" ? "bold" : "normal",
+              }}
+            >
               전시 둘러보기
             </S.NavMenuItem>
             <span>|</span>

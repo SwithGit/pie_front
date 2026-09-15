@@ -23,9 +23,11 @@ import { useTranslation } from "react-i18next";
 const SecondComponent: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { isMobile } = useDeviceSize();
-  const mainImg1 = i18n.language === "ko" ? mainImg1Ko : mainImg1En;
-  const mainImg2 = i18n.language === "ko" ? mainImg2Ko : mainImg2En;
-  const isEnglish = i18n.language === "en";
+  const language = (i18n.resolvedLanguage || i18n.language || "ko").toLowerCase();
+  const isKorean = language.startsWith("ko");
+  const mainImg1 = isKorean ? mainImg1Ko : mainImg1En;
+  const mainImg2 = isKorean ? mainImg2Ko : mainImg2En;
+  const isEnglish = language.startsWith("en");
 
   const [isVisible, setIsVisible] = useState(false);
   const [isBlurred, setIsBlurred] = useState(false); // Add blurred state
