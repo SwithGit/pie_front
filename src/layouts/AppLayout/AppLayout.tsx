@@ -1,5 +1,6 @@
 import {
   Routes,
+  Navigate,
   Route,
   useLocation,
   useParams,
@@ -10,7 +11,7 @@ import SignIn from "../../pages/account/SignIn";
 import SignUp from "../../pages/account/SignUp";
 import MainContainer from "../../components/MainContainer/MainContainer";
 import Footer from "../Footer/Footer";
-import Gallery from "../../components/Gallery/Gallery";
+import Exhibitions from "../../pages/Exhibitions/Exhibitions";
 import Content from "../../components/Content/Content";
 import IdFind from "../../pages/account/IdFind";
 import CustomerService from "../../pages/CustomerService/CustomerService";
@@ -22,20 +23,20 @@ import DiscountCoupons from "../../components/mypage/AccountPage/DiscountCoupons
 import Points from "../../pages/Mypage/points";
 import Pricing from "../../pages/Pricing/Pricing";
 import Download from "../../pages/Download/Download";
-import Allgallery from "../../pages/allgallery/allgallery";
+
 import WorkspacePage from "../../pages/Workspace/WorkspacePage";
 // GalleryWrapper: URL 파라미터를 받아서 Gallery 컴포넌트에 전달하는 래퍼 컴포넌트
 const GalleryWrapper: React.FC = () => {
   const { code } = useParams<{ code: string }>(); // URL의 파라미터에서 'code'를 추출
 
-  return <Gallery code={code || ""} />; // 'code'가 없으면 빈 문자열 전달
+  return <Navigate replace to={`/ddookddak/${encodeURIComponent(code || "")}`} />; // 'code'가 없으면 빈 문자열 전달
 };
 
 // ContentWrapper: URL 파라미터를 받아서 Content 컴포넌트에 전달하는 래퍼 컴포넌트
 const ContentWrapper: React.FC = () => {
   const { code } = useParams<{ code: string }>(); // URL의 파라미터에서 'code'를 추출
 
-  return <Content code={code || ""} />; // 'code'가 없으면 빈 문자열 전달
+  return <Content key={code} code={code || ""} />; // 'code'가 없으면 빈 문자열 전달
 };
 
 const AppLayout: React.FC = () => {
@@ -55,7 +56,7 @@ const AppLayout: React.FC = () => {
   const hideNavbar = galleryMatch || ddookddakMatch;
 
   return (
-    <div id="root">
+    <div className="app-layout">
       {!hideNavbar && <Navbar />}
       <main>
         <Routes>
@@ -66,7 +67,8 @@ const AppLayout: React.FC = () => {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/download" element={<Download />} />
           <Route path="/cs" element={<CustomerService />} />{" "}
-          <Route path="/allgallery/:page/:order" element={<Allgallery />} />
+          <Route path="/galleries" element={<Exhibitions />} />
+          <Route path="/allgallery/:page/:order" element={<Exhibitions />} />
           <Route path="/gallery/:code" element={<GalleryWrapper />} />{" "}
           <Route path="/ddookddak/:code" element={<ContentWrapper />} />{" "}
           <Route path="/idfind" element={<IdFind />} />

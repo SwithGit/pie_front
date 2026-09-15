@@ -124,6 +124,10 @@ const Navbar: React.FC = () => {
                   <HiChevronRight size={18} style={{ color: "#eaeaea" }} />
                 </S.NavMenuItem>
                 <S.StyledHr />
+                <S.NavMenuItem onClick={() => handleMenuClick("galleries", "/galleries")}>
+                  전시 둘러보기<HiChevronRight size={18} style={{ color: "#eaeaea" }} />
+                </S.NavMenuItem>
+                <S.StyledHr />
                 {/* 하단 메뉴: 이용약관, 개인정보처리방침 */}
                 <S.MobileNavMenuFooter>
                   <S.FooterNavMenuItem
@@ -144,6 +148,10 @@ const Navbar: React.FC = () => {
           </>
         ) : (
           <S.NavMenu>
+            <S.NavMenuItem onClick={() => handleMenuClick("galleries", "/galleries")}>
+              전시 둘러보기
+            </S.NavMenuItem>
+            <span>|</span>
             <S.NavMenuItem
               onClick={() => handleMenuClick("home", "/")}
               style={{
