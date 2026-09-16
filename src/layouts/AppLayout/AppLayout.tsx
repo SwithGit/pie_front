@@ -7,6 +7,7 @@ import {
   useMatch,
 } from "react-router-dom";
 import Navbar from "../NavigationBar/Navbar";
+import CompleteProfile from "../../pages/account/CompleteProfile";
 import SignIn from "../../pages/account/SignIn";
 import SignUp from "../../pages/account/SignUp";
 import MainContainer from "../../components/MainContainer/MainContainer";
@@ -46,6 +47,7 @@ const AppLayout: React.FC = () => {
 
   const hideFooter =
     location.pathname === "/signin" ||
+    location.pathname === "/complete-profile" ||
     location.pathname === "/signup" ||
     location.pathname === "/idfind" ||
     location.pathname === "/pwfind" ||
@@ -62,6 +64,7 @@ const AppLayout: React.FC = () => {
         <Routes>
           <Route path="/" element={<MainContainer />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/workspaces" element={<WorkspacePage />} />
           <Route path="/pricing" element={<Pricing />} />

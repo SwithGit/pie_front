@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as S from "./Page.style";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../../../redux/authSlice";
+import { loginSuccess, logout } from "../../../redux/authSlice";
 import AccountLogo from "../../../assets/img/Frame 8644.png";
 import GoogleLoginImage from "../../../assets/img/btn_google_signin_light_normal_web.png";
 import KakaoLoginImage from "../../../assets/img/kakao_login_medium_narrow.png";
@@ -32,8 +32,16 @@ const Page: React.FC = () => {
       pending.current = attempt;
       const result = await attempt.result;
       if (pending.current !== attempt) return;
-      dispatch(loginSuccess(result));
-      navigate(new URLSearchParams(location.search).get("next") === "/workspaces" ? "/workspaces" : "/");
+      const next = new URLSearchParams(location.search).get("next") === "/workspaces" ? "/workspaces" : "/";
+      if (result.requiresProfile) {
+        dispatch(logout());
+        sessionStorage.setItem("socialProfileToken", result.token);
+        navigate(`/complete-profile?next=${encodeURIComponent(next)}`);
+      } else {
+        sessionStorage.removeItem("socialProfileToken");
+        dispatch(loginSuccess(result));
+        navigate(next);
+      }
     } catch (error) {
       if (attempt && pending.current !== attempt) return;
       const code = error instanceof Error ? error.message : "login_failed";

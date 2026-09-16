@@ -55,3 +55,10 @@ test("provider denial and unmount cancellation clear pending login", async () =>
   await cancelled;
   expect(jest.getTimerCount()).toBe(0);
 });
+
+test("profile completion flag is preserved without upgrading to a regular session", async () => {
+  const f = popupFixture();
+  window.dispatchEvent(new MessageEvent("message", { origin: f.url.origin, source: f.popup as unknown as Window,
+    data: { ...f.data, token: "onboarding-token", requiresProfile: true } }));
+  await expect(f.attempt.result).resolves.toEqual({ id: "social-user", token: "onboarding-token", requiresProfile: true });
+});

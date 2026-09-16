@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "./api";
 
 export type SocialProvider = "kakao" | "google";
-export interface SocialLoginResult { id: string; token: string; }
+export interface SocialLoginResult { id: string; token: string; requiresProfile?: boolean; }
 
 export function startSocialLogin(provider: SocialProvider): { result: Promise<SocialLoginResult>; cancel: () => void } {
   const requestId = Array.from(crypto.getRandomValues(new Uint8Array(32)), byte => byte.toString(16).padStart(2, "0")).join("");
@@ -21,7 +21,7 @@ export function startSocialLogin(provider: SocialProvider): { result: Promise<So
       if (data.error === "invalid_state") { fail("invalid_state"); return; }
       if (data.requestId !== requestId) return;
       if (data.success === true && typeof data.id === "string" && data.id && typeof data.token === "string" && data.token) {
-        clean(); resolve({ id: data.id, token: data.token });
+        clean(); resolve({ id: data.id, token: data.token, ...(data.requiresProfile === true ? { requiresProfile: true } : {}) });
       } else { fail(data.error || "login_failed"); }
     };
     window.addEventListener("message", onMessage);
