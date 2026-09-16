@@ -3,8 +3,8 @@ import * as S from "./Page.style";
 import { useDispatch } from "react-redux";
 import { loginSuccess, logout } from "../../../redux/authSlice";
 import AccountLogo from "../../../assets/img/Frame 8644.png";
-import GoogleLoginImage from "../../../assets/img/btn_google_signin_light_normal_web.png";
-import KakaoLoginImage from "../../../assets/img/kakao_login_medium_narrow.png";
+import GoogleLoginImage from "../../../assets/img/google_login_circle.png";
+import KakaoLoginImage from "../../../assets/img/kakao_login_circle.png";
 import { loginApi } from "../../../api/api";
 import { SocialProvider, startSocialLogin } from "../../../api/socialLogin";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -124,12 +124,14 @@ const Page: React.FC = () => {
               {t("or")}
               <hr />
             </S.Divider>
+            <S.SocialLoginButtons>
             <S.KakaoLoginButton type="button" disabled={socialPending !== null} aria-label={t(socialPending === "kakao" ? "socialLoginPending" : "loginWithKakao")} aria-busy={socialPending === "kakao"} onClick={() => handleSocialLogin("kakao")}>
-              <img src={KakaoLoginImage} alt="" width={183} height={45} />
+              <img src={KakaoLoginImage} alt="" />
             </S.KakaoLoginButton>
             <S.GoogleLoginButton type="button" disabled={socialPending !== null} aria-label={t(socialPending === "google" ? "socialLoginPending" : "loginWithGoogle")} aria-busy={socialPending === "google"} onClick={() => handleSocialLogin("google")}>
               <img src={GoogleLoginImage} alt="" />
             </S.GoogleLoginButton>
+            </S.SocialLoginButtons>
             {socialError && <S.SocialError role="alert">{socialError}</S.SocialError>}
             <S.Actions>
               <S.ActionLink

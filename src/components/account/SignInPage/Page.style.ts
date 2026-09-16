@@ -184,49 +184,42 @@ export const Divider = styled.div`
   }
 `;
 
-export const GoogleLoginButton = styled.button`
+export const SocialLoginButtons = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
   width: 100%;
-  height: 46px;
+  gap: 20px;
   margin-bottom: 10px;
-  padding: 0;
-  border: 1px solid #dadce0;
-  border-radius: 8px;
-  background: #fff;
-  cursor: pointer;
-  img {
-    display: block;
-    width: 191px;
-    height: 46px;
-    /* Hide the border/shadow baked into the original button image. */
-    clip-path: inset(5px);
-  }
-  &:disabled { opacity: 0.6; cursor: wait; }
-  &:focus-visible { outline: 2px solid #2459a9; outline-offset: 2px; }
 `;
+
+const CircleLoginButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 60px;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  overflow: hidden;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 150ms ease, opacity 150ms ease;
+  /* The supplied images include whitespace around the circular artwork. */
+  img { display: block; flex-shrink: 0; width: 122%; height: 122%; max-width: none; }
+  &:hover:not(:disabled) { transform: translateY(-2px); }
+  &:disabled { opacity: 0.5; cursor: wait; }
+  &:focus-visible { outline: 2px solid #2459a9; outline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) { transition: none; }
+`;
+
+export const GoogleLoginButton = styled(CircleLoginButton)``;
+export const KakaoLoginButton = styled(CircleLoginButton)``;
+
 export const SocialError = styled.p`
   width: 100%;
   color: #b42318;
   font-size: 14px;
-`;
-
-export const KakaoLoginButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  width: 100%;
-  height: 46px;
-  margin-bottom: 10px;
-  padding: 0;
-  border: none;
-  border-radius: 8px;
-  background: #fee500;
-  cursor: pointer;
-  img { display: block; width: 183px; height: 45px; }
-  &:disabled { opacity: 0.6; cursor: wait; }
-  &:focus-visible { outline: 2px solid #2459a9; outline-offset: 2px; }
 `;
