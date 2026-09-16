@@ -183,3 +183,50 @@ export const Divider = styled.div`
     min-width: fit-content;
   }
 `;
+
+export const GoogleLoginButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 46px;
+  margin-bottom: 10px;
+  padding: 0;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  img {
+    display: block;
+    width: 191px;
+    height: 46px;
+    /* Hide the border/shadow baked into the original button image. */
+    clip-path: inset(5px);
+  }
+  &:disabled { opacity: 0.6; cursor: wait; }
+  &:focus-visible { outline: 2px solid #2459a9; outline-offset: 2px; }
+`;
+export const SocialError = styled.p`
+  width: 100%;
+  color: #b42318;
+  font-size: 14px;
+`;
+
+export const KakaoLoginButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 46px;
+  margin-bottom: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: #fee500;
+  cursor: pointer;
+  img { display: block; width: 183px; height: 45px; }
+  &:disabled { opacity: 0.6; cursor: wait; }
+  &:focus-visible { outline: 2px solid #2459a9; outline-offset: 2px; }
+`;

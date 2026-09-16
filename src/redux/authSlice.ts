@@ -23,7 +23,6 @@ const authSlice = createSlice({
       state.id = action.payload.id;
       state.token = action.payload.token;
       state.isLoggedIn = true;
-      console.log("로그인 성공:", action.payload);
 
       // 로컬스토리지에 저장
       localStorage.setItem("id", action.payload.id);
