@@ -12,6 +12,10 @@ import SignIn from "../../pages/account/SignIn";
 import SignUp from "../../pages/account/SignUp";
 import MainContainer from "../../components/MainContainer/MainContainer";
 import Footer from "../Footer/Footer";
+import DiscoveryHome from "../../pages/Exhibitions/DiscoveryHome";
+import ExhibitionDetail from "../../pages/Exhibitions/ExhibitionDetail";
+import ExhibitionAdmin from "../../pages/Exhibitions/ExhibitionAdmin";
+import { useEffect } from "react";
 import Exhibitions from "../../pages/Exhibitions/Exhibitions";
 import Content from "../../components/Content/Content";
 import IdFind from "../../pages/account/IdFind";
@@ -33,6 +37,12 @@ const GalleryWrapper: React.FC = () => {
   return <Navigate replace to={`/ddookddak/${encodeURIComponent(code || "")}`} />; // 'code'가 없으면 빈 문자열 전달
 };
 
+// Local dev/static hosting fallback; Vercel serves crawler metadata at /share/:code.
+const ShareWrapper: React.FC = () => {
+  const { code = "" } = useParams();
+  return <Navigate replace to={`/exhibitions/${encodeURIComponent(code)}`} />;
+};
+
 // ContentWrapper: URL 파라미터를 받아서 Content 컴포넌트에 전달하는 래퍼 컴포넌트
 const ContentWrapper: React.FC = () => {
   const { code } = useParams<{ code: string }>(); // URL의 파라미터에서 'code'를 추출
@@ -42,6 +52,7 @@ const ContentWrapper: React.FC = () => {
 
 const AppLayout: React.FC = () => {
   const location = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [location.pathname]);
   const galleryMatch = useMatch("/gallery/:code");
   const ddookddakMatch = useMatch("/ddookddak/:code");
 
@@ -53,7 +64,7 @@ const AppLayout: React.FC = () => {
     location.pathname === "/pwfind" ||
     ddookddakMatch ||
     galleryMatch ||
-    location.pathname === "/";
+    location.pathname === "/product";
 
   const hideNavbar = galleryMatch || ddookddakMatch;
 
@@ -62,7 +73,11 @@ const AppLayout: React.FC = () => {
       {!hideNavbar && <Navbar />}
       <main>
         <Routes>
-          <Route path="/" element={<MainContainer />} />
+          <Route path="/" element={<DiscoveryHome />} />
+          <Route path="/product" element={<MainContainer />} />
+          <Route path="/exhibitions/:code" element={<ExhibitionDetail />} />
+          <Route path="/share/:code" element={<ShareWrapper />} />
+          <Route path="/admin/exhibitions" element={<ExhibitionAdmin />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/signup" element={<SignUp />} />

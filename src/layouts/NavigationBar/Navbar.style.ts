@@ -34,7 +34,7 @@ export const NavTitle = styled.div`
 `;
 
 export const NavMenu = styled.div`
-  font-weight: lighter;
+  font-weight: 400;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -69,6 +69,7 @@ const WorkspacePage: React.FC = () => {
   return <div className="workspace-page">
     <header className="workspace-heading"><span>뚝딱 계정</span><h1>작업 공간</h1>
       <p>혼자 시작하거나 팀을 만들 수 있어요. 회사 등록과 소속 신청도 여기에서 진행합니다.</p></header>
+    {isPlatformAdmin && <p><Link to="/admin/exhibitions">팝업·전시 홈 노출 관리 →</Link></p>}
     {notice && <div className="workspace-notice" role="status">{notice}</div>}
 
     <section className="workspace-card">

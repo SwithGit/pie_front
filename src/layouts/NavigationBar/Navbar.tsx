@@ -105,8 +105,8 @@ const Navbar: React.FC = () => {
                 </S.LanguageLoginContainer>
                 <S.StyledloginHr />
                 {isLoggedIn ? <></> : <></>}
-                <S.NavMenuItem onClick={() => handleMenuClick("product", "/")}>
-                  {t("pricing")}
+                <S.NavMenuItem onClick={() => handleMenuClick("product", "/product")}>
+                  {t("product")}
                   <HiChevronRight size={18} style={{ color: "#eaeaea" }} />
                 </S.NavMenuItem>
                 <S.StyledHr />
@@ -125,7 +125,7 @@ const Navbar: React.FC = () => {
                 </S.NavMenuItem>
                 <S.StyledHr />
                 <S.NavMenuItem onClick={() => handleMenuClick("galleries", "/galleries")}>
-                  전시 둘러보기<HiChevronRight size={18} style={{ color: "#eaeaea" }} />
+                  팝업·전시<HiChevronRight size={18} style={{ color: "#eaeaea" }} />
                 </S.NavMenuItem>
                 <S.StyledHr />
                 {/* 하단 메뉴: 이용약관, 개인정보처리방침 */}
@@ -154,11 +154,11 @@ const Navbar: React.FC = () => {
                 fontWeight: activeMenu === "galleries" ? "bold" : "normal",
               }}
             >
-              전시 둘러보기
+              팝업·전시
             </S.NavMenuItem>
             <span>|</span>
             <S.NavMenuItem
-              onClick={() => handleMenuClick("home", "/")}
+              onClick={() => handleMenuClick("product", "/product")}
               style={{
                 fontWeight: activeMenu === "product" ? "bold" : "normal",
               }}
