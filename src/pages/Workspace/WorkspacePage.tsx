@@ -1,3 +1,4 @@
+import { exhibitionReviewEnabled } from "../../config/exhibitionReview";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -70,7 +71,7 @@ const WorkspacePage: React.FC = () => {
     <header className="workspace-heading"><span>뚝딱 계정</span><h1>작업 공간</h1>
       <p>혼자 시작하거나 팀을 만들 수 있어요. 회사 등록과 소속 신청도 여기에서 진행합니다.</p></header>
     {isPlatformAdmin && <p><Link to="/admin/exhibitions">팝업·전시 홈 노출 관리 →</Link></p>}
-    <p><Link to="/mypage/publications">내 전시 공개 심사 →</Link> · <Link to="/mypage/creator">제작자·브랜드 프로필 →</Link></p>
+    <p>{exhibitionReviewEnabled && <><Link to="/mypage/publications">내 전시 공개 심사 →</Link> · </>}<Link to="/mypage/creator">제작자·브랜드 프로필 →</Link></p>
     {notice && <div className="workspace-notice" role="status">{notice}</div>}
 
     <section className="workspace-card">

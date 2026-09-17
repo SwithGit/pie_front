@@ -1,3 +1,4 @@
+import { exhibitionReviewEnabled } from "../../config/exhibitionReview";
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { getCurationAccess } from "../../api/publicGalleries";
@@ -16,7 +17,7 @@ function useLoad<T>(load:(signal:AbortSignal)=>Promise<T>,deps:unknown[],enabled
   return {data,error,loading,reload:()=>setVersion(v=>v+1)};
 }
 function Page({title,description,children}:{title:string;description:string;children:React.ReactNode}) {
-  return <div className="exhibitions-page community-page"><nav className="community-nav" aria-label="전시 계정 메뉴"><Link to="/">홈</Link><Link to="/mypage/exhibitions">전시 보관함</Link><Link to="/mypage/creator">공개 프로필</Link><Link to="/mypage/publications">내 전시 심사</Link><Link to="/mypage/business">전시 통계·연결</Link><Link to="/mypage">계정</Link></nav><header className="exhibitions-intro"><span className="exhibitions-eyebrow">DDUKDDAK · YOUR SPACE</span><h1>{title}</h1><p>{description}</p></header>{children}</div>;
+  return <div className="exhibitions-page community-page"><nav className="community-nav" aria-label="전시 계정 메뉴"><Link to="/">홈</Link><Link to="/mypage/exhibitions">전시 보관함</Link><Link to="/mypage/creator">공개 프로필</Link>{exhibitionReviewEnabled && <><Link to="/mypage/publications">내 전시 심사</Link></>}<Link to="/mypage/business">전시 통계·연결</Link><Link to="/mypage">계정</Link></nav><header className="exhibitions-intro"><span className="exhibitions-eyebrow">DDUKDDAK · YOUR SPACE</span><h1>{title}</h1><p>{description}</p></header>{children}</div>;
 }
 function Login({next}:{next:string}){return <div className="exhibition-message"><h2>로그인하고 이어서 이용하세요</h2><p>찜한 전시와 최근 본 공간을 계정에 보관할 수 있어요.</p><Link className="discovery-primary" to={`/signin?next=${encodeURIComponent(next)}`}>로그인하기</Link></div>;}
 function Result({loading,error,reload}:{loading:boolean;error:string;reload:()=>void}){return loading?<p role="status">불러오는 중이에요…</p>:error?<div className="exhibition-message" role="alert"><p>{error}</p><button onClick={reload}>다시 불러오기</button></div>:null;}

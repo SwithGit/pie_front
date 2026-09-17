@@ -1,3 +1,4 @@
+import { exhibitionReviewEnabled } from "../../config/exhibitionReview";
 import { CreatorBusiness, BusinessAdmin } from "../../pages/Exhibitions/BusinessPages";
 import {
   Routes,
@@ -84,8 +85,8 @@ const AppLayout: React.FC = () => {
           <Route path="/mypage/exhibitions" element={<ExhibitionLibrary />} />
           <Route path="/creators/:nickname" element={<CreatorProfile />} />
           <Route path="/mypage/creator" element={<CreatorSettings />} />
-          <Route path="/mypage/publications" element={<MyExhibitions />} />
-          <Route path="/admin/moderation" element={<ExhibitionModeration />} />
+          <Route path="/mypage/publications" element={exhibitionReviewEnabled ? <MyExhibitions /> : <Navigate replace to="/mypage/business" />} />
+          <Route path="/admin/moderation" element={exhibitionReviewEnabled ? <ExhibitionModeration /> : <Navigate replace to="/admin/business" />} />
           <Route path="/admin/exhibitions" element={<ExhibitionAdmin />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
