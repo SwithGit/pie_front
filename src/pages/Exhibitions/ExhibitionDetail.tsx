@@ -1,3 +1,4 @@
+import { ExhibitionOffers } from "./BusinessPublic";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getPublicGallery, PublicGallery } from "../../api/publicGalleries";
@@ -44,6 +45,6 @@ export default function ExhibitionDetail() {
       </div></div>
       <section className="exhibition-about"><h2>이 공간의 이야기</h2><p>{gallery.description || "자세한 이야기는 전시 공간 안에서 만나보세요."}</p>
         {!!gallery.tags?.length && <div className="exhibition-filter-chips">{gallery.tags.map(tag => <Link key={tag} to={`/galleries?tag=${encodeURIComponent(tag)}`}>#{tag}</Link>)}</div>}
-      </section><RelatedExhibitions code={gallery.code} /><div className="exhibition-detail-more"><h2>또 다른 취향을 만나보세요.</h2><Link to={gallery.category ? `/galleries?category=${gallery.category}` : "/galleries"}>다른 팝업·전시 둘러보기 →</Link></div></>}
+      </section><ExhibitionOffers code={gallery.code} /><RelatedExhibitions code={gallery.code} /><div className="exhibition-detail-more"><h2>또 다른 취향을 만나보세요.</h2><Link to={gallery.category ? `/galleries?category=${gallery.category}` : "/galleries"}>다른 팝업·전시 둘러보기 →</Link></div></>}
   </div>;
 }

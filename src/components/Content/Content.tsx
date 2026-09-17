@@ -1,3 +1,4 @@
+import { trackEntry } from "../../api/exhibitionBusiness";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { GallerySession, openPublicGallery, PublicGallery } from "../../api/publicGalleries";
 import "./viewer.css";
@@ -70,7 +71,8 @@ export default function Content({ code }: { code: string }) {
     if (!/^[A-Za-z0-9_-]{1,45}$/.test(code)) { onError("전시 주소가 올바르지 않아요."); return; }
     openPublicGallery(code, controller.signal).then(data => {
       if (controller.signal.aborted) return;
-      setGallery(data.gallery); setSession(data.session); document.title = `${data.gallery.title} · VRINART`;
+      setGallery(data.gallery); setSession(data.session);
+      void trackEntry(code).catch(() => undefined); document.title = `${data.gallery.title} · VRINART`;
     }).catch(e => { if (!controller.signal.aborted) onError(e.message); });
     return () => { controller.abort(); document.title = "뚝딱"; };
   }, [code, onError]);

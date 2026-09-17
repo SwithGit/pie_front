@@ -128,6 +128,8 @@ const Navbar: React.FC = () => {
                   팝업·전시<HiChevronRight size={18} style={{ color: "#eaeaea" }} />
                 </S.NavMenuItem>
                 <S.StyledHr />
+                <S.NavMenuItem onClick={() => handleMenuClick("pricing", "/pricing")}>요금제·도입 안내<HiChevronRight size={18} style={{ color: "#eaeaea" }} /></S.NavMenuItem>
+                <S.StyledHr />
                 {/* 하단 메뉴: 이용약관, 개인정보처리방침 */}
                 <S.MobileNavMenuFooter>
                   <S.FooterNavMenuItem
@@ -166,15 +168,15 @@ const Navbar: React.FC = () => {
               {t("product")}
             </S.NavMenuItem>
             <span>|</span>
-            {/* <S.NavMenuItem
+            <S.NavMenuItem
               onClick={() => handleMenuClick("pricing", "/pricing")}
               style={{
                 fontWeight: activeMenu === "pricing" ? "bold" : "normal",
               }}
             >
-              {t("pricing")}
-            </S.NavMenuItem> */}
-            {/* <span>|</span> */}
+              요금제
+            </S.NavMenuItem>
+            <span>|</span>
             <S.NavMenuItem
               onClick={() => handleMenuClick("download", "/download")}
               style={{

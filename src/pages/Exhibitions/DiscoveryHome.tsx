@@ -1,3 +1,4 @@
+import { PromotionShelf } from "./BusinessPublic";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { DiscoveryData, exhibitionCategories, getDiscoveryHome, PublicGallery } from "../../api/publicGalleries";
@@ -50,6 +51,7 @@ export default function DiscoveryHome() {
       {data.totalItems > 4 && <Shelf title="놓치기 전에 만나보세요" subtitle="앞으로 2주 안에 종료되는 기간 한정 공간이에요." galleries={data.ending} order="ending" />}
       {data.totalItems > 0 && data.totalItems <= 4 && <div className="discovery-quick-links"><Link to="/galleries?order=latest">새로 열린 전시 ↗</Link><Link to="/galleries?order=ending">곧 종료되는 전시 ↗</Link></div>}
     </>}
-    <section className="discovery-create"><div><span className="exhibitions-eyebrow">FOR CREATORS</span><h2>당신의 이야기도<br />하나의 공간이 되도록.</h2><p>공간을 꾸미고, 팀과 함께 만들고, 링크 하나로 세상에 공개하세요.</p></div><div className="discovery-create-actions"><Link className="discovery-primary" to="/download">뚝딱으로 제작하기 ↗</Link><Link to="/product">제작 도구 알아보기 →</Link></div></section>
+    <PromotionShelf />
+    <section className="discovery-create"><div><span className="exhibitions-eyebrow">FOR CREATORS</span><h2>당신의 이야기도<br />하나의 공간이 되도록.</h2><p>공간을 꾸미고, 팀과 함께 만들고, 링크 하나로 세상에 공개하세요.</p></div><div className="discovery-create-actions"><Link className="discovery-primary" to="/download">뚝딱으로 제작하기 ↗</Link><Link to="/product">제작 도구 알아보기 →</Link><Link to="/pricing">요금제·도입 안내 →</Link></div></section>
   </div>;
 }

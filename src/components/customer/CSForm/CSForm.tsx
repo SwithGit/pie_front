@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import * as S from "./CSForm.style";
 import mainLogo from "../../../assets/vector/mainLogo.png";
@@ -15,9 +16,11 @@ const MAX_FILE_SIZE_MB = 20; // 최대 용량 20MB
 
 const CSForm: React.FC = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const selectedPlan = (new URLSearchParams(location.search).get("plan") || "").slice(0,100);
   const [files, setFiles] = useState<FileState>({});
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const [title, setTitle] = useState<string>(selectedPlan ? t("DetailedQuotationInquiry") : "");
+  const [content, setContent] = useState<string>(selectedPlan ? `[${selectedPlan}] 도입을 문의합니다.\n희망 일정: \n예상 규모: \n문의 내용: ` : "");
   const [email, setEmail] = useState<string>("");
   const [company, setCompany] = useState<string>("");
   const [contactName, setContactName] = useState<string>("");
@@ -107,9 +110,10 @@ const CSForm: React.FC = () => {
           <S.MainLogo src={mainLogo} />
           <S.MainTitle>{t("oneToOneInquiry")}</S.MainTitle>
         </S.Main>
+        {selectedPlan && <p>선택한 요금제: <strong>{selectedPlan}</strong> · 상담 후 이용 조건과 최종 금액을 안내해 드려요.</p>}
         <S.Container>
           <S.Title>{t("inquiryType")}</S.Title>
-          <TypeSelect onChange={(e) => setTitle(e.target.value)} />
+          <TypeSelect initialValue={selectedPlan ? t("DetailedQuotationInquiry") : undefined} onChange={(e) => setTitle(e.target.value)} />
         </S.Container>
         <S.Container>
           <S.Title>{t("inquiryContent")}</S.Title>

@@ -3,8 +3,9 @@ import * as S from "./TypeSelect.style";
 import { useTranslation } from "react-i18next"; // useTranslation 훅 import
 
 const TypeSelect = ({
-  onChange,
+  onChange, initialValue,
 }: {
+  initialValue?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const { t } = useTranslation(); // useTranslation 훅 사용
@@ -14,7 +15,7 @@ const TypeSelect = ({
     t("PaymentRelated"),
     t("AccountRelated"),
   ]; // 다국어 지원 적용
-  const [selected, setSelected] = useState<string>(t("csType")); // 다국어 지원 적용
+  const [selected, setSelected] = useState<string>(initialValue || t("csType")); // 다국어 지원 적용
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleSelect = (menu: string) => {

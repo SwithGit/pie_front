@@ -1,3 +1,4 @@
+import { CreatorBusiness, BusinessAdmin } from "../../pages/Exhibitions/BusinessPages";
 import {
   Routes,
   Navigate,
@@ -78,6 +79,8 @@ const AppLayout: React.FC = () => {
           <Route path="/product" element={<MainContainer />} />
           <Route path="/exhibitions/:code" element={<ExhibitionDetail />} />
           <Route path="/share/:code" element={<ShareWrapper />} />
+          <Route path="/mypage/business" element={<CreatorBusiness />} />
+          <Route path="/admin/business" element={<BusinessAdmin />} />
           <Route path="/mypage/exhibitions" element={<ExhibitionLibrary />} />
           <Route path="/creators/:nickname" element={<CreatorProfile />} />
           <Route path="/mypage/creator" element={<CreatorSettings />} />

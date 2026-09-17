@@ -21,7 +21,7 @@ export const decideReview=(code:string,status:string,contentHash:string,note:str
 export const getReports=(status:string,page:number,signal?:AbortSignal)=>request<{reports:Report[];page:number;totalPages:number}>(`/management/reports?${new URLSearchParams({status,page:String(page)})}`,signal,undefined,true);
 export const resolveReport=(id:number,status:string,note:string)=>request<{success:boolean}>(`/management/reports/${id}`,undefined,{status,note},true,"PUT");
 let memoryVisitor="";
-function visitorId() {
+export function visitorId() {
   try {const stored=localStorage.getItem("ddukddak-visitor");if(stored && /^[a-f0-9-]{36}$/i.test(stored)) return stored;}catch {}
   if(!memoryVisitor) {
     const bytes=crypto.getRandomValues(new Uint8Array(16));bytes[6]=(bytes[6]&15)|64;bytes[8]=(bytes[8]&63)|128;
