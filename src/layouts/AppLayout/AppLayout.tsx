@@ -12,6 +12,7 @@ import SignIn from "../../pages/account/SignIn";
 import SignUp from "../../pages/account/SignUp";
 import MainContainer from "../../components/MainContainer/MainContainer";
 import Footer from "../Footer/Footer";
+import { ExhibitionLibrary, CreatorProfile, CreatorSettings, MyExhibitions, ExhibitionModeration } from "../../pages/Exhibitions/CommunityPages";
 import DiscoveryHome from "../../pages/Exhibitions/DiscoveryHome";
 import ExhibitionDetail from "../../pages/Exhibitions/ExhibitionDetail";
 import ExhibitionAdmin from "../../pages/Exhibitions/ExhibitionAdmin";
@@ -77,6 +78,11 @@ const AppLayout: React.FC = () => {
           <Route path="/product" element={<MainContainer />} />
           <Route path="/exhibitions/:code" element={<ExhibitionDetail />} />
           <Route path="/share/:code" element={<ShareWrapper />} />
+          <Route path="/mypage/exhibitions" element={<ExhibitionLibrary />} />
+          <Route path="/creators/:nickname" element={<CreatorProfile />} />
+          <Route path="/mypage/creator" element={<CreatorSettings />} />
+          <Route path="/mypage/publications" element={<MyExhibitions />} />
+          <Route path="/admin/moderation" element={<ExhibitionModeration />} />
           <Route path="/admin/exhibitions" element={<ExhibitionAdmin />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />

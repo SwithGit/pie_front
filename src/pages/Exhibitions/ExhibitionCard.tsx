@@ -31,6 +31,6 @@ export default function ExhibitionCard({ gallery }: { gallery: PublicGallery }) 
       </div>
     </Link>
     {!!gallery.tags?.length && <div className="exhibition-tags">{gallery.tags.map(tag => <Link key={tag} to={`/galleries?tag=${encodeURIComponent(tag)}`}>#{tag}</Link>)}</div>}
-    <div className="exhibition-card-bottom"><span>{period(gallery)}</span><span>조회 {gallery.views.toLocaleString("ko-KR")}</span></div>
+    <div className="exhibition-card-bottom"><span>{period(gallery)}</span><span>조회 {gallery.views.toLocaleString("ko-KR")} · ♡ {gallery.webLikes || 0}</span></div>
   </article>;
 }

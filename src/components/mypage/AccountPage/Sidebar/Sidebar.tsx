@@ -10,6 +10,9 @@ const Sidebar: React.FC = () => {
 
   const sidebarItems = [
     { label: t("mypage"), path: "/mypage" },
+    { label: "찜 · 최근 본 전시", path: "/mypage/exhibitions" },
+    { label: "제작자·브랜드 프로필", path: "/mypage/creator" },
+    { label: "내 전시 공개 심사", path: "/mypage/publications" },
     { label: "작업 공간 · 회사/팀", path: "/workspaces" },
     { label: t("passwordChange"), path: "/mypage/password" },
     { label: t("points"), path: "/mypage/points" },

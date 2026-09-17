@@ -6,6 +6,7 @@ import Exhibitions from "./Exhibitions";
 import ExhibitionDetail from "./ExhibitionDetail";
 import ExhibitionAdmin from "./ExhibitionAdmin";
 import * as api from "../../api/publicGalleries";
+jest.mock("./CommunityDetail", () => ({ ExhibitionActions: () => null, RelatedExhibitions: () => null }));
 jest.mock("../../api/publicGalleries", () => ({ ...jest.requireActual("../../api/publicGalleries"), getDiscoveryHome: jest.fn(), listPublicGalleries: jest.fn(), getPublicGallery: jest.fn(), getCurationAccess: jest.fn(), getCuratedGallery: jest.fn(), saveCuration: jest.fn() }));
 const item: api.PublicGallery = { code:"test-code",title:"테스트 팝업",creator:"브랜드",description:"우리의 이야기",thumbnailUrls:[],startDate:null,endDate:null,alwaysOpen:true,views:10,likes:0,category:"brand",tags:["디자인"] };
 const mockHome = api.getDiscoveryHome as jest.Mock;

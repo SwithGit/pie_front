@@ -1,3 +1,4 @@
+import { safeLoginNext } from "../../../utils/safeLoginNext";
 import React, { useEffect, useRef, useState } from "react";
 import * as S from "./Page.style";
 import { useDispatch } from "react-redux";
@@ -32,7 +33,7 @@ const Page: React.FC = () => {
       pending.current = attempt;
       const result = await attempt.result;
       if (pending.current !== attempt) return;
-      const next = new URLSearchParams(location.search).get("next") === "/workspaces" ? "/workspaces" : "/";
+      const next = safeLoginNext(new URLSearchParams(location.search).get("next"));
       if (result.requiresProfile) {
         dispatch(logout());
         sessionStorage.setItem("socialProfileToken", result.token);
@@ -73,7 +74,7 @@ const Page: React.FC = () => {
             token: response.token,
           })
         );
-        navigate(new URLSearchParams(location.search).get("next") === "/workspaces" ? "/workspaces" : "/");
+        navigate(safeLoginNext(new URLSearchParams(location.search).get("next")));
       } else {
         switch (response.statusCode) {
           case 400:

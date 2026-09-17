@@ -45,6 +45,7 @@ export default function ExhibitionAdmin() {
     <header className="exhibitions-intro"><span className="exhibitions-eyebrow">CURATION</span><h1>팝업·전시 노출 관리</h1><p>분류와 태그, 홈 추천 전시, 공유 대표 이미지를 관리해요.</p></header>
     {error && <p className="exhibition-message" role="alert">{error}</p>}{checking && <p>운영자 권한을 확인하고 있어요.</p>}
     {!checking && !access && <Link to="/signin?next=/admin/exhibitions">운영자 계정으로 로그인</Link>}
+    {access && <p><Link to="/admin/moderation">공개 심사 · 신고 관리 →</Link></p>}
     {access && <div className="exhibition-admin-layout"><aside>
       <form className="discovery-search" onSubmit={e => { e.preventDefault(); setSearch(query); setPage(1); }}><input aria-label="공개 전시 검색" placeholder="전시명 또는 제작자 검색" value={query} maxLength={80} onChange={e => setQuery(e.target.value)} /><button>검색</button></form>
       <ul>{items.map(item => <li key={item.code}><button disabled={busy} className={item.code === code ? "selected" : ""} onClick={() => setParams({ code: item.code })}>{item.title}<small>{item.creator}</small></button></li>)}</ul>

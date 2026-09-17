@@ -1,7 +1,7 @@
 export interface PublicGallery {
   code: string; title: string; creator: string; description: string;
   thumbnailUrls: string[]; startDate: string | null; endDate: string | null;
-  alwaysOpen: boolean; views: number; likes: number;
+  alwaysOpen: boolean; views: number; likes: number; webLikes?: number;
   category?: string; tags?: string[]; featured?: boolean; featureOrder?: number;
   editorialNote?: string; shareImageUrl?: string;
 }
@@ -22,7 +22,7 @@ export interface Curation {
   category: string; tags: string[]; featured: boolean; featureOrder: number; editorialNote: string; shareImageUrl: string;
 }
 const base = (process.env.REACT_APP_API_BASE_URL || "https://www.pieback.com").replace(/\/$/, "");
-async function request<T>(path: string, signal?: AbortSignal, body?: unknown, admin = false, method?: string): Promise<T> {
+export async function request<T>(path: string, signal?: AbortSignal, body?: unknown, admin = false, method?: string): Promise<T> {
   const response = await fetch(`${base}/api/public/galleries${path}`, {
     signal, method: method || (body === undefined ? "GET" : "POST"),
     headers: { ...(body === undefined ? {} : { "Content-Type": "application/json" }),

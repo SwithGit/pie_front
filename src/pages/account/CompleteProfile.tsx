@@ -1,3 +1,4 @@
+import { safeLoginNext } from "../../utils/safeLoginNext";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -39,7 +40,7 @@ export default function CompleteProfile() {
   const dispatch = useDispatch();
   const params = new URLSearchParams(location.search);
   const preview = process.env.NODE_ENV === "development" && params.get("preview") === "1";
-  const next = params.get("next") === "/workspaces" ? "/workspaces" : "/";
+  const next = safeLoginNext(params.get("next"));
   const token = sessionStorage.getItem("socialProfileToken");
   const [status, setStatus] = useState<ProfileStatus | null>(null);
   const [fields, setFields] = useState<ProfileFields>({ name: "", nickname: "", email: "" });

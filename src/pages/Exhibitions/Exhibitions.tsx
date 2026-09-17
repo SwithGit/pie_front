@@ -37,7 +37,7 @@ export default function Exhibitions() {
     <section aria-label="팝업·전시 목록">
       <div className="exhibitions-toolbar"><p aria-live="polite">{loading ? "전시를 찾고 있어요" : result ? <><strong>{result.totalItems}</strong>개의 공간</> : "전시 목록"}</p>
         <form onSubmit={e => { e.preventDefault(); change({ q: draft.trim() }); }}><label className="sr-only" htmlFor="exhibition-search">전시명 또는 제작자 검색</label><input id="exhibition-search" placeholder="전시명 또는 제작자" value={draft} maxLength={80} onChange={e => setDraft(e.target.value)} /><button type="submit">검색</button></form>
-        <label className="sr-only" htmlFor="exhibition-order">정렬</label><select id="exhibition-order" value={order} onChange={e => change({ order: e.target.value })}><option value="latest">최신순</option><option value="popular">많이 본 순</option><option value="ending">종료 임박</option><option value="featured">운영자 추천</option><option value="likes">좋아요순</option></select>
+        <label className="sr-only" htmlFor="exhibition-order">정렬</label><select id="exhibition-order" value={order} onChange={e => change({ order: e.target.value })}><option value="latest">최신순</option><option value="popular">인기순</option><option value="ending">종료 임박</option><option value="featured">운영자 추천</option><option value="likes">웹 좋아요순</option></select>
       </div>
       {tag && <p className="exhibition-active-tag">#{tag} <button onClick={() => change({ tag: "" })} aria-label={`${tag} 태그 해제`}>×</button></p>}
       {error ? <div className="exhibition-message" role="alert"><h2>전시 목록을 불러오지 못했어요</h2><p>{error}</p><button onClick={() => setRevision(x => x + 1)}>다시 불러오기</button></div>

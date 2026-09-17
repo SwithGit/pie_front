@@ -42,9 +42,10 @@ export default function DiscoveryHome() {
         {heroes.length > 1 && <div className="discovery-slide-controls"><button aria-label="이전 추천 전시" onClick={() => setSlide((slide + heroes.length - 1) % heroes.length)}>←</button><span aria-live="polite">{slide + 1} / {heroes.length}</span><button aria-label="다음 추천 전시" onClick={() => setSlide((slide + 1) % heroes.length)}>→</button></div>}
       </div><Link className="discovery-hero-image" to={`/exhibitions/${encodeURIComponent(hero.code)}`} aria-label={`${hero.title} 자세히 보기`}><Thumbnail key={hero.code} gallery={hero} eager /></Link></section>
       : <section className="discovery-empty-hero"><span className="discovery-pill">작은 아이디어가 새로운 공간으로</span><h2>다음 팝업의 주인공은<br />당신이 될 수 있어요.</h2><p>지금은 공개된 전시가 없어요. 첫 번째 공간을 열어보세요.</p><Link className="discovery-primary" to="/product">뚝딱 알아보기 ↗</Link></section>}
+    <div className="community-home-link"><Link to="/mypage/exhibitions">♡ 찜한 전시 · 최근 본 전시 →</Link></div>
     <nav className="discovery-categories" aria-label="관심사별 전시"><Link to="/galleries">전체 보기 <span>↗</span></Link>{exhibitionCategories.map((item, i) => <Link key={item.id} to={`/galleries?category=${item.id}`}><span className="category-number">0{i + 1}</span>{item.label}</Link>)}</nav>
     {data && <>
-      <Shelf title={data.totalItems >= 4 ? "지금 많이 찾는 공간" : "지금, 열려 있는 팝업·전시"} subtitle={data.totalItems >= 4 ? "누적 조회수가 높은 공간을 만나보세요." : "마음에 드는 공간에 들어가 이야기를 만나보세요."} galleries={data.popular} order="popular" />
+      <Shelf title={data.totalItems >= 4 ? "지금 인기 있는 공간" : "지금, 열려 있는 팝업·전시"} subtitle={data.totalItems >= 4 ? "누적 조회와 웹 좋아요를 함께 반영한 인기 공간이에요." : "마음에 드는 공간에 들어가 이야기를 만나보세요."} galleries={data.popular} order="popular" />
       {data.totalItems > 4 && <Shelf title="새로 문을 열었어요" subtitle="가장 먼저 발견하는 즐거움, 새로운 팝업과 전시." galleries={data.latest} order="latest" />}
       {data.totalItems > 4 && <Shelf title="놓치기 전에 만나보세요" subtitle="앞으로 2주 안에 종료되는 기간 한정 공간이에요." galleries={data.ending} order="ending" />}
       {data.totalItems > 0 && data.totalItems <= 4 && <div className="discovery-quick-links"><Link to="/galleries?order=latest">새로 열린 전시 ↗</Link><Link to="/galleries?order=ending">곧 종료되는 전시 ↗</Link></div>}
