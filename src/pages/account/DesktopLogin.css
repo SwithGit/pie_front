@@ -1,0 +1,11 @@
+.desktop-login { min-height: 72vh; display: grid; place-items: center; padding: 48px 20px; background: #f6f7f8; color: #223040; }
+.desktop-login-card { box-sizing: border-box; width: min(100%, 460px); padding: 36px; border: 1px solid #edf0f2; border-radius: 24px; background: white; box-shadow: 0 12px 40px #2230400a; }
+.desktop-login-brand { font-size: 13px; letter-spacing: .12em; color: #697580; }
+.desktop-login h1 { font-size: 27px; margin: 20px 0 12px; }
+.desktop-login p { line-height: 1.7; overflow-wrap: anywhere; }
+.desktop-login-code { display: block; text-align: center; letter-spacing: .2em; font-size: 30px; padding: 20px; margin: 20px 0; border-radius: 12px; background: #fff7e5; }
+.desktop-login button { width: 100%; border: 0; border-radius: 12px; padding: 15px; margin: 8px 0; background: #223040; color: white; font: inherit; font-weight: 600; cursor: pointer; }
+.desktop-login button.secondary { background: #f3f5f7; color: #223040; }
+.desktop-login button:disabled { opacity: .55; cursor: wait; }
+.desktop-login small { display: block; margin-top: 20px; color: #697580; line-height: 1.6; }
+.desktop-login .desktop-login-error { color: #a02828; }

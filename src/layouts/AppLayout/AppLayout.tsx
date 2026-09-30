@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Navbar from "../NavigationBar/Navbar";
 import CompleteProfile from "../../pages/account/CompleteProfile";
+import DesktopLogin from "../../pages/account/DesktopLogin";
 import SignIn from "../../pages/account/SignIn";
 import SignUp from "../../pages/account/SignUp";
 import MainContainer from "../../components/MainContainer/MainContainer";
@@ -60,6 +61,7 @@ const AppLayout: React.FC = () => {
   const ddookddakMatch = useMatch("/ddookddak/:code");
 
   const hideFooter =
+    location.pathname === "/desktop-login" ||
     location.pathname === "/signin" ||
     location.pathname === "/complete-profile" ||
     location.pathname === "/signup" ||
@@ -88,6 +90,7 @@ const AppLayout: React.FC = () => {
           <Route path="/mypage/publications" element={exhibitionReviewEnabled ? <MyExhibitions /> : <Navigate replace to="/mypage/business" />} />
           <Route path="/admin/moderation" element={exhibitionReviewEnabled ? <ExhibitionModeration /> : <Navigate replace to="/admin/business" />} />
           <Route path="/admin/exhibitions" element={<ExhibitionAdmin />} />
+          <Route path="/desktop-login" element={<DesktopLogin />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/signup" element={<SignUp />} />
