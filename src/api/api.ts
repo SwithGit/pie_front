@@ -121,6 +121,8 @@ export const getWorkspaceMembers = async (workspaceId: string) =>
   (await api.get(`/api/workspaces/${encodeURIComponent(workspaceId)}/members`, workspaceAuth())).data;
 export const decideWorkspaceMember = async (workspaceId: string, userId: string, approve: boolean) =>
   (await api.post(`/api/workspaces/${encodeURIComponent(workspaceId)}/members/${encodeURIComponent(userId)}/${approve ? "approve" : "reject"}`, {}, workspaceAuth())).data;
+export const removeWorkspaceMember = async (workspaceId: string, userId: string): Promise<{ success: boolean; err?: string }> =>
+  (await api.delete(`/api/workspaces/${encodeURIComponent(workspaceId)}/members/${encodeURIComponent(userId)}`, workspaceAuth())).data;
 export const activateWorkspace = async (workspaceId: string) =>
   (await api.post(`/api/workspaces/${encodeURIComponent(workspaceId)}/activate`, {}, workspaceAuth())).data;
 export const getCompanyReviewQueue = async () =>

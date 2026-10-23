@@ -23,4 +23,7 @@
 .workspace-card button { padding: 10px 16px; margin: 2px 6px 2px 0; border: 0; border-radius: 9px; background: #4263eb; color: #fff; cursor: pointer; font: inherit; }
 .workspace-card button:disabled { background: #aab5d4; cursor: default; }
 .workspace-card .workspace-subtle, .workspace-code button { background: #edf2ff; color: #3151c9; }
+.workspace-card .workspace-remove { background: #fff0f0; color: #b42318; }
+.workspace-card .workspace-remove:disabled { background: #edf0f6; color: #697386; }
+.workspace-card .workspace-remove:focus-visible { outline: 2px solid #b42318; outline-offset: 3px; }
 @media (max-width: 720px) { .workspace-columns, .workspace-company-form { grid-template-columns: 1fr; } .workspace-page { padding: 32px 16px 64px; } .workspace-card { padding: 20px; } }

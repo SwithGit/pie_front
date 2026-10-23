@@ -1,10 +1,10 @@
 import { exhibitionReviewEnabled } from "../../config/exhibitionReview";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   activateWorkspace, approveCompanyWorkspace, createTeamWorkspace, decideWorkspaceMember,
   getCompanyReviewQueue, getWorkspaceMembers, getWorkspaces, registerCompanyWorkspace,
-  requestWorkspaceJoin,
+  requestWorkspaceJoin, removeWorkspaceMember,
 } from "../../api/api";
 import "./WorkspacePage.css";
 
@@ -18,6 +18,11 @@ type CompanyReview = { id: string; name: string; businessNumber: string; created
 
 const messageOf = (error: any) => error?.response?.data?.err || "요청을 완료하지 못했습니다. 잠시 후 다시 시도해 주세요.";
 
+const canRemoveMember = (workspace: Workspace, member: Member, currentUserId: string | null) =>
+  workspace.kind !== "personal" && workspace.status === "active" && workspace.memberStatus === "active" &&
+  member.status === "active" && member.role !== "owner" && member.userId !== currentUserId &&
+  (workspace.role === "owner" || (workspace.role === "admin" && member.role === "editor"));
+
 const WorkspacePage: React.FC = () => {
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [isPlatformAdmin, setIsPlatformAdmin] = useState(false);
@@ -30,7 +35,11 @@ const WorkspacePage: React.FC = () => {
   const [companyNotice, setCompanyNotice] = useState("");
   const [companySubmitting, setCompanySubmitting] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [removingMember, setRemovingMember] = useState("");
+  const actionInProgress = useRef(false);
+  const memberLoads = useRef<Record<string, number>>({});
   const isLoggedIn = !!localStorage.getItem("token");
+  const currentUserId = localStorage.getItem("id");
 
   const refresh = useCallback(async () => {
     const result = await getWorkspaces();
@@ -44,23 +53,45 @@ const WorkspacePage: React.FC = () => {
   }, [isLoggedIn, refresh]);
 
   const run = async (action: () => Promise<any>, success: string, onStatus?: (message: string) => void, pending = "") => {
+    if (actionInProgress.current) return false;
+    actionInProgress.current = true;
     setBusy(true); setNotice(""); onStatus?.(pending);
     try { await action(); await refresh(); setNotice(success); onStatus?.(success); return true; }
     catch (error) { const message = messageOf(error); setNotice(message); onStatus?.(message); return false; }
-    finally { setBusy(false); }
+    finally { actionInProgress.current = false; setBusy(false); }
   };
 
   const showMembers = async (workspaceId: string) => {
+    const request = (memberLoads.current[workspaceId] || 0) + 1;
+    memberLoads.current[workspaceId] = request;
     try {
       const result = await getWorkspaceMembers(workspaceId);
-      setMembers(current => ({ ...current, [workspaceId]: result.members || [] }));
-    } catch (error) { setNotice(messageOf(error)); }
+      if (memberLoads.current[workspaceId] === request)
+        setMembers(current => ({ ...current, [workspaceId]: result.members || [] }));
+    } catch (error) { if (memberLoads.current[workspaceId] === request) setNotice(messageOf(error)); }
   };
 
   const decide = (workspaceId: string, userId: string, approve: boolean) => run(async () => {
     await decideWorkspaceMember(workspaceId, userId, approve);
     await showMembers(workspaceId);
   }, approve ? "팀원 참여를 승인했습니다." : "참여 신청을 거절했습니다.");
+
+  const remove = async (workspace: Workspace, member: Member) => {
+    if (actionInProgress.current || !canRemoveMember(workspace, member, currentUserId)) return;
+    const name = member.name || member.nickname || member.userId;
+    if (!window.confirm(`${name}님을 ${workspace.name}에서 삭제할까요?\n계정과 전시는 유지되며, 이 팀의 공유 작업 공간 접근 권한이 해제됩니다.`)) return;
+    actionInProgress.current = true;
+    setBusy(true); setNotice(""); setRemovingMember(`${workspace.id}/${member.userId}`);
+    try {
+      const result = await removeWorkspaceMember(workspace.id, member.userId);
+      if (!result.success) { setNotice(result.err || "팀원을 삭제하지 못했습니다."); return; }
+      // Ignore any older list request that could otherwise restore the removed row.
+      memberLoads.current[workspace.id] = (memberLoads.current[workspace.id] || 0) + 1;
+      setMembers(current => ({ ...current, [workspace.id]: (current[workspace.id] || []).filter(item => item.userId !== member.userId) }));
+      setNotice(`${name}님을 팀에서 삭제했습니다.`);
+    } catch (error) { setNotice(messageOf(error)); }
+    finally { actionInProgress.current = false; setBusy(false); setRemovingMember(""); }
+  };
 
   if (!isLoggedIn) return <div className="workspace-page"><section className="workspace-card">
     <h1>작업 공간</h1><p>로그인한 뒤 개인·팀·회사 작업 공간을 관리할 수 있습니다.</p>
@@ -89,11 +120,14 @@ const WorkspacePage: React.FC = () => {
               catch { window.alert("복사에 실패했습니다."); }
             }}>복사</button></div>}
           {workspace.memberStatus === "active" && ["owner", "admin"].includes(workspace.role) && workspace.status === "active" &&
-            <button className="workspace-subtle" onClick={() => showMembers(workspace.id)}>팀원·참여 신청 보기</button>}
+            <button className="workspace-subtle" disabled={busy} onClick={() => showMembers(workspace.id)}>팀원·참여 신청 보기</button>}
           {(members[workspace.id] || []).map(member => <div className="workspace-member" key={member.userId}>
             <span>{member.name || member.nickname} ({member.userId}) · {member.status === "pending" ? "승인 대기" : member.role}</span>
             {member.status === "pending" && <span><button disabled={busy} onClick={() => decide(workspace.id, member.userId, true)}>승인</button>
               <button disabled={busy} onClick={() => decide(workspace.id, member.userId, false)}>거절</button></span>}
+            {canRemoveMember(workspace, member, currentUserId) && <button type="button" className="workspace-remove" disabled={busy}
+              aria-label={`${member.name || member.nickname || member.userId} 팀원 삭제`} onClick={() => remove(workspace, member)}>
+              {removingMember === `${workspace.id}/${member.userId}` ? "삭제 중…" : "팀원 삭제"}</button>}
           </div>)}
         </div>)}
       </div>
